@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Availability &amp; Constraints - SDU Timetable</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="availability">
+  <div class="frame">
+    <aside id="sidebar"></aside>
+    <main class="main">
+      <h1>My Availability &amp;<br>Constraints</h1>
+      <p class="hint">Click a slot to mark it unavailable.</p>
+      <div id="draftInfo" class="course-info draft-info" hidden></div>
+      <div id="avail" class="grow"></div>
+      <div class="actions" id="normalActions"><button class="btn" id="save">Save Update</button></div>
+      <div class="actions" id="draftActions" hidden>
+        <button type="button" class="btn red" id="cancelDraft">Cancel</button>
+        <button type="button" class="btn green" id="submitDraft">Submit Request</button>
+      </div>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Submit Request - SDU Timetable</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="request">
+  <div class="frame">
+    <aside id="sidebar"></aside>
+    <main class="main req-main">
+      <h1>Request Course Scheduling</h1>
+      <form id="reqForm" class="req">
+        <div class="row">
+          <label for="course">Select Course:</label>
+          <select id="course" name="course"></select>
+        </div>
+        <div id="courseInfo" class="course-info" hidden></div>
+        <div>Request Type:</div>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="type" value="Unavailable"> Unavailable</label>
+          <label class="opt"><input type="radio" name="type" value="Special Teaching Constraint"> Special Teaching Constraint</label>
+          <label class="opt"><input type="radio" name="type" value="Equipment"> Equipment</label>
+          <div class="equip">
+            <label><input type="checkbox" name="equip" value="Projector"> Projector</label>
+            <label><input type="checkbox" name="equip" value="Table"> Table</label>
+            <label><input type="checkbox" name="equip" value="Whiteboard"> Whiteboard</label>
+          </div>
+          <label class="opt"><input type="radio" name="type" value="Change Request"> Change Request</label>
+          <div class="opt">
+            <input type="radio" name="type" value="Other" id="otherR">
+            <label for="otherR">Other:</label>
+            <input type="text" name="other">
+          </div>
+        </div>
+        <div class="remarks">Details/Remarks:</div>
+        <textarea name="details"></textarea>
+        <div class="actions">
+          <button type="button" class="btn red" id="cancel">Cancel</button>
+          <button type="submit" class="btn green" id="submitBtn">Go to Availability Page</button>
+        </div>
+      </form>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Request Status - SDU Timetable</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="status">
+  <div class="frame">
+    <aside id="sidebar"></aside>
+    <main class="main">
+      <h1>My Request Status</h1>
+      <p class="section-text"><b>Your requests</b> – the table below lists the scheduling requests you have sent, with their current status. Click a row to open its preview.</p>
+      <div class="req-list"><table id="reqs"></table></div>
+      <p class="section-text"><b>Current time schedule</b> – the table below shows your timetable as it is scheduled right now. You can click a cell to edit it and press Save Update.</p>
+      <div id="tt" class="grow"></div>
+      <div class="actions"><button class="btn" id="save">Save Update</button></div>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

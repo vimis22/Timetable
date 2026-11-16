@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Request Preview - SDU Timetable</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="preview">
+  <div class="frame">
+    <aside id="sidebar"></aside>
+    <main class="main req-main preview-main">
+      <h1>Request Preview</h1>
+      <p id="previewMeta" class="preview-meta"></p>
+      <form id="reqForm" class="req preview-form">
+        <div class="col-left">
+        <div class="row">
+          <label for="course">Select Course:</label>
+          <select id="course" name="course"></select>
+        </div>
+        <div id="courseInfo" class="course-info" hidden></div>
+        <div>Request Type:</div>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="type" value="Unavailable"> Unavailable</label>
+          <label class="opt"><input type="radio" name="type" value="Special Teaching Constraint"> Special Teaching Constraint</label>
+          <label class="opt"><input type="radio" name="type" value="Equipment"> Equipment</label>
+          <div class="equip">
+            <label><input type="checkbox" name="equip" value="Projector"> Projector</label>
+            <label><input type="checkbox" name="equip" value="Table"> Table</label>
+            <label><input type="checkbox" name="equip" value="Whiteboard"> Whiteboard</label>
+          </div>
+          <label class="opt"><input type="radio" name="type" value="Change Request"> Change Request</label>
+          <div class="opt">
+            <input type="radio" name="type" value="Other" id="otherR">
+            <label for="otherR">Other:</label>
+            <input type="text" name="other">
+          </div>
+        </div>
+        <div class="remarks">Details/Remarks:</div>
+        <textarea name="details"></textarea>
+        </div>
+        <div class="col-right">
+          <div>Availability:</div>
+          <p class="avail-note">Red slots are the times marked as unavailable in this request. Click a slot to change it.</p>
+          <div id="previewAvail" class="preview-avail"></div>
+        </div>
+        <div class="actions">
+          <button type="button" class="btn red" id="cancel">Cancel</button>
+          <button type="submit" class="btn green" id="submitBtn">Update Preview Request</button>
+        </div>
+      </form>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
