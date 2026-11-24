@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conflicts - SDU Timetable Planner</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="plannerConflicts" data-role="planner">
+  <div class="frame">
+    <aside id="sidebar"></aside>
+    <main class="main">
+      <h1>Conflict Review - Draft</h1>
+      <h2 class="sub">Conflict Warning</h2>
+      <div class="req-list"><table id="conflicts"></table></div>
+      <h2 class="sub">Suggested Resolutions</h2>
+      <div class="req-list"><table id="resolutions"></table></div>
+      <div id="review" class="course-info planner-info" hidden></div>
+      <div class="actions">
+        <button type="button" class="btn purple" id="reviewBtn">Review Changes</button>
+        <button type="button" class="btn purple" id="confirm">Confirm</button>
+      </div>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,15 +1,315 @@
-@startuml
-'https://plantuml.com/sequence-diagram
+@startuml ER-Diagram
+' =====================================================================
+'  SDU Timetable Management System - Proposed ER Diagram
+'  Entities are grouped by the backend module that owns them.
+'  (datamanager = persistence layer, page/main = UI/bootstrap: no tables)
+' =====================================================================
 
-autonumber
+hide circle
+skinparam linetype ortho
+skinparam shadowing false
+skinparam roundcorner 6
+skinparam packageStyle rectangle
+skinparam class {
+  BackgroundColor #FFFFFF
+  BorderColor #2B4A6F
+  HeaderBackgroundColor #DCE6F2
+}
+skinparam package {
+  BackgroundColor #F7F9FC
+  BorderColor #8AA1BD
+}
 
-== Initialization ==
+' ---------------------------------------------------------------------
+package "user" {
+  entity "FACULTY" as faculty {
+    * faculty_id : INT <<PK>>
+    --
+    * name : VARCHAR
+  }
 
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
+  entity "USER" as user {
+    * user_id : INT <<PK>>
+    --
+    * username : VARCHAR <<UK>>
+    * full_name : VARCHAR
+      email : VARCHAR
+    * role : ENUM {TEACHER, PLANNER, ADMIN}
+    * faculty_id : INT <<FK>>
+    * language_code : VARCHAR <<FK>>
+  }
 
-== Repetition ==
+  entity "COURSE_TEACHER" as course_teacher {
+    * course_id : INT <<PK, FK>>
+    * user_id : INT <<PK, FK>>
+    --
+      is_responsible : BOOLEAN
+  }
+}
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+' ---------------------------------------------------------------------
+package "language" {
+  entity "LANGUAGE" as language {
+    * language_code : VARCHAR <<PK>>  (da, en)
+    --
+    * name : VARCHAR
+  }
+
+  entity "TRANSLATION" as translation {
+    * language_code : VARCHAR <<PK, FK>>
+    * msg_key : VARCHAR <<PK>>
+    --
+    * text : VARCHAR
+  }
+}
+
+' ---------------------------------------------------------------------
+package "scheduling" {
+  entity "COURSE" as course {
+    * course_id : INT <<PK>>
+    --
+    * course_code : VARCHAR <<UK>>  (C-101)
+    * title : VARCHAR
+    * section : INT
+    * course_type : ENUM {CORE, ELECTIVE}
+      est_students : INT
+      requirement_note : VARCHAR
+    * faculty_id : INT <<FK>>
+  }
+
+  entity "SCHEDULE" as schedule {
+    * schedule_id : INT <<PK>>
+    --
+    * term : VARCHAR  (F2027)
+    * status : ENUM {DRAFT, PUBLISHED, ARCHIVED}
+    * created_by : INT <<FK>>
+    * created_at : DATETIME
+      published_at : DATETIME
+  }
+
+  entity "SESSION" as session {
+    * session_id : INT <<PK>>
+    --
+    * schedule_id : INT <<FK>>
+    * course_id : INT <<FK>>
+    * timeslot_id : INT <<FK>>
+      room_id : INT <<FK>>  (null until allocated)
+    * origin : ENUM {MANUAL, SUGGESTED}
+    ..
+    UNIQUE (schedule_id, timeslot_id, room_id)
+  }
+
+  entity "PRIORITY_RULE" as priority_rule {
+    * rule_id : INT <<PK>>
+    --
+    * code : VARCHAR <<UK>>  (CORE_FIRST, LARGE_CLASS ...)
+    * description : VARCHAR
+  }
+
+  entity "SCHEDULE_PRIORITY" as schedule_priority {
+    * schedule_id : INT <<PK, FK>>
+    * rule_id : INT <<PK, FK>>
+    --
+    * rank : INT
+    ..
+    UNIQUE (schedule_id, rank)
+  }
+}
+
+' ---------------------------------------------------------------------
+package "allocation" {
+  entity "ROOM" as room {
+    * room_id : INT <<PK>>
+    --
+    * room_code : VARCHAR <<UK>>  (U45)
+    * capacity : INT
+    * faculty_id : INT <<FK>>
+  }
+
+  entity "EQUIPMENT" as equipment {
+    * equipment_id : INT <<PK>>
+    --
+    * name : VARCHAR <<UK>>  (PC, Projector, Whiteboard ...)
+  }
+
+  entity "ROOM_EQUIPMENT" as room_equipment {
+    * room_id : INT <<PK, FK>>
+    * equipment_id : INT <<PK, FK>>
+    --
+      quantity : INT
+  }
+
+  entity "COURSE_EQUIPMENT" as course_equipment {
+    * course_id : INT <<PK, FK>>
+    * equipment_id : INT <<PK, FK>>
+  }
+}
+
+' ---------------------------------------------------------------------
+package "availability" {
+  entity "TIMESLOT" as timeslot {
+    * timeslot_id : INT <<PK>>
+    --
+    * weekday : ENUM {MON..SAT}
+    * start_time : TIME
+    * end_time : TIME
+    * is_working_hours : BOOLEAN
+  }
+
+  entity "AVAILABILITY" as availability {
+    * user_id : INT <<PK, FK>>
+    * timeslot_id : INT <<PK, FK>>
+    --
+    * kind : ENUM {UNAVAILABLE, PREFERRED}
+      reason : VARCHAR
+  }
+}
+
+' ---------------------------------------------------------------------
+package "requests" {
+  entity "REQUEST" as request {
+    * request_id : INT <<PK>>
+    --
+    * request_no : VARCHAR <<UK>>  (R-001)
+    * course_id : INT <<FK>>
+    * submitted_by : INT <<FK>>
+    * type : ENUM {EQUIPMENT, SPECIAL_CONSTRAINT,\n  UNAVAILABLE, CHANGE_REQUEST, OTHER}
+      other_text : VARCHAR
+      details : TEXT
+    * status : ENUM {PENDING, APPROVED, DECLINED}
+      decided_by : INT <<FK>>
+      decided_at : DATETIME
+    * created_at : DATETIME
+    * updated_at : DATETIME
+  }
+
+  entity "REQUEST_EQUIPMENT" as request_equipment {
+    * request_id : INT <<PK, FK>>
+    * equipment_id : INT <<PK, FK>>
+  }
+
+  entity "REQUEST_TIMESLOT" as request_timeslot {
+    * request_id : INT <<PK, FK>>
+    * timeslot_id : INT <<PK, FK>>
+    --
+    * kind : ENUM {UNAVAILABLE, PREFERRED}
+  }
+}
+
+' ---------------------------------------------------------------------
+package "conflicts" {
+  entity "CONFLICT" as conflict {
+    * conflict_id : INT <<PK>>
+    --
+    * schedule_id : INT <<FK>>
+    * type : ENUM {TIME, LECTURER, CAPACITY,\n  EQUIPMENT, AVAILABILITY}
+      description : VARCHAR
+    * status : ENUM {OPEN, RESOLVED, IGNORED}
+    * detected_at : DATETIME
+      resolved_by : INT <<FK>>
+      resolved_at : DATETIME
+  }
+
+  entity "CONFLICT_SESSION" as conflict_session {
+    * conflict_id : INT <<PK, FK>>
+    * session_id : INT <<PK, FK>>
+  }
+
+  entity "RESOLUTION" as resolution {
+    * resolution_id : INT <<PK>>
+    --
+    * conflict_id : INT <<FK>>
+    * session_id : INT <<FK>>  (session to move)
+      new_timeslot_id : INT <<FK>>
+      new_room_id : INT <<FK>>
+    * applied : BOOLEAN
+  }
+}
+
+' ---------------------------------------------------------------------
+package "notifications" {
+  entity "NOTIFICATION" as notification {
+    * notification_id : INT <<PK>>
+    --
+    * user_id : INT <<FK>>
+      request_id : INT <<FK>>
+    * message_key : VARCHAR
+    * created_at : DATETIME
+      read_at : DATETIME
+  }
+}
+
+' ---------------------------------------------------------------------
+package "systemlog" {
+  entity "SYSTEM_LOG" as system_log {
+    * log_id : INT <<PK>>
+    --
+      user_id : INT <<FK>>  (null = system)
+    * action : VARCHAR  (REQUEST_APPROVED ...)
+    * entity_type : VARCHAR
+    * entity_id : INT
+      details : TEXT
+    * timestamp : DATETIME
+  }
+}
+
+' =====================================================================
+'  Relationships   (||  exactly one   |o  zero or one
+'                   |{  one or many   o{  zero or many)
+' =====================================================================
+
+' --- user + language
+faculty   ||--o{ user           : employs
+language  ||--o{ user           : "preferred by"
+language  ||--o{ translation    : contains
+
+' --- master data
+faculty   ||--o{ course         : offers
+faculty   ||--o{ room           : owns
+user      ||--o{ course_teacher : "assigned as"
+course    ||--o{ course_teacher : "taught by"
+course    ||--o{ course_equipment : requires
+equipment ||--o{ course_equipment : "needed in"
+room      ||--o{ room_equipment : has
+equipment ||--o{ room_equipment : "installed in"
+
+' --- availability
+user      ||--o{ availability   : declares
+timeslot  ||--o{ availability   : "applies to"
+
+' --- requests
+user      ||--o{ request        : submits
+user      |o--o{ request        : decides
+course    ||--o{ request        : concerns
+request   ||--o{ request_equipment : "asks for"
+equipment ||--o{ request_equipment : "requested in"
+request   ||--o{ request_timeslot  : specifies
+timeslot  ||--o{ request_timeslot  : "referenced by"
+
+' --- scheduling + allocation
+user      ||--o{ schedule       : creates
+schedule  ||--o{ session        : contains
+course    ||--o{ session        : "scheduled as"
+timeslot  ||--o{ session        : "held in"
+room      |o--o{ session        : "allocated to"
+
+' --- priorities
+schedule      ||--o{ schedule_priority : "ranked by"
+priority_rule ||--o{ schedule_priority : "used in"
+
+' --- conflicts
+schedule  ||--o{ conflict         : has
+conflict  ||--|{ conflict_session : involves
+session   ||--o{ conflict_session : "part of"
+conflict  ||--o{ resolution       : suggests
+session   ||--o{ resolution       : "moved by"
+timeslot  |o--o{ resolution       : "proposed slot"
+room      |o--o{ resolution       : "proposed room"
+user      |o--o{ conflict         : resolves
+
+' --- notifications + log
+user      ||--o{ notification   : receives
+request   |o--o{ notification   : triggers
+user      |o--o{ system_log     : performs
+
 @enduml

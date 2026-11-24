@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Course Queue - SDU Timetable Planner</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="plannerQueue" data-role="planner" data-variant="B">
+  <div class="frame">
+    <aside id="sidebar"></aside>
+    <main class="main">
+      <h1>Course Queue</h1>
+      <p class="hint">Select a request, then show the suggested timetable or open its details.</p>
+      <div class="queue-wrap"><table id="queue"></table></div>
+      <div class="actions">
+        <button type="button" class="btn" id="showSuggested">Show Suggested Timetable</button>
+        <button type="button" class="btn purple" id="viewDetails">View Request Details</button>
+      </div>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="ttModal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="ttModalTitle">
+      <div class="modal-head">
+        <h2 id="ttModalTitle">Suggested Timetable</h2>
+        <button type="button" class="modal-close" id="closeModal" aria-label="Close">&times;</button>
+      </div>
+      <p class="hint" id="modalNote"></p>
+      <div id="suggestedGrid"></div>
+      <div class="legend-list" id="suggestedLegend"></div>
+      <div class="actions"><button type="button" class="btn purple" id="closeModal2">Back to Course Queue</button></div>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

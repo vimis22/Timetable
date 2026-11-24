@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scheduling - SDU Timetable Planner</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="plannerScheduling" data-role="planner">
+  <div class="frame">
+    <aside id="sidebar"></aside>
+    <main class="main">
+      <h1>Timetable View</h1>
+      <div class="req row-inline">
+        <label for="course">Course:</label>
+        <select id="course"></select>
+        <button type="button" class="btn purple" id="suggest">Suggest Slots</button>
+      </div>
+      <p class="hint legend"><span class="key open">OPEN</span> teacher available &middot; <span class="key blocked">Unavailable</span> teacher blocked &middot; <span class="key mine">selected course</span> &middot; click OPEN to place, click the course to remove</p>
+      <div id="plan" class="grow"></div>
+      <div class="actions">
+        <button type="button" class="btn red" id="reset">Discard</button>
+        <button type="button" class="btn purple" id="save">Save To Schedule</button>
+      </div>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

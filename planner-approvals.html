@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Approvals - SDU Timetable Planner</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="plannerApprovals" data-role="planner">
+  <div class="frame">
+    <aside id="sidebar"></aside>
+    <main class="main">
+      <section id="listView" class="full">
+        <h1>Approvals</h1>
+        <p class="section-text">Requests sent by teachers. Click a row to open its details.</p>
+        <div class="req-list"><table id="approvalList"></table></div>
+      </section>
+      <section id="detailView" class="full" hidden>
+        <h1>Resource Request Details</h1>
+        <div class="detail-meta" id="detailMeta"></div>
+        <div class="detail-panels">
+          <div class="panel"><h3>Details</h3><div id="detailText" class="panel-body"></div></div>
+          <div class="panel"><h3>Teacher&rsquo;s Timeslots</h3><div id="detailSlots" class="panel-body"></div></div>
+        </div>
+        <div class="actions">
+          <button type="button" class="btn purple" id="back">Back</button>
+          <button type="button" class="btn red" id="decline">Decline</button>
+          <button type="button" class="btn purple" id="approve">Approve Request</button>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -9,13 +9,12 @@
 <body data-page="login">
   <div class="frame login">
     <h1>SDU TIMETABLE<br>MANAGEMENT SYSTEM</h1>
-    <form id="loginForm">
+    <form id="loginForm" novalidate>
       <label for="username">Username:</label>
-      <input id="username" name="username" autocomplete="username">
-      <label for="password">Password:</label>
-      <input id="password" name="password" type="password" autocomplete="current-password">
-      <button type="submit">ENTER</button>
-      <div class="error"></div>
+      <input id="username" name="username" autocomplete="username" placeholder="teacher or planner" autofocus>
+      <p class="login-hint">Prototype for usability testing: enter <b>teacher</b> or <b>planner</b>. No password is needed.</p>
+      <button type="submit">Login</button>
+      <div class="error" role="alert"></div>
     </form>
   </div>
   <script src="app.js"></script>

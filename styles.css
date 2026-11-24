@@ -30,6 +30,9 @@ td[contenteditable="true"]:focus { background: #fff; outline: none; }
 .actions { margin-top: 3.5vh; display: flex; gap: 1.5vw; justify-content: center; flex-shrink: 0; }
 .btn.purple { background: #7d2ad0; }
 .btn.red { background: #e2321e; text-transform: uppercase; }
+.btn.turquoise { background: #00AFAF; color: #fff; font-family: inherit; line-height: normal; }
+.ab-wrap { position: relative; display: inline-flex; }
+.ab-badge { position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%); white-space: nowrap; background: #d4f4f4; color: #006b6b; font-size: clamp(11px, 0.75vw, 14px); font-weight: 700; padding: 2px 10px; border-radius: 10px; pointer-events: none; }
 .btn.green { background: #3c8a2e; text-transform: uppercase; }
 .avail td.slot { cursor: pointer; }
 .avail td.slot:hover { background: #cfcfcf; }
@@ -93,8 +96,9 @@ td.empty a { color: #b02a8a; font-weight: 700; }
 /* Dashboard */
 .dash .main { align-items: stretch; }
 .dash .welcome { font-weight: 700; font-size: clamp(22px, 2vw, 38px); margin: 2vh 0 2vh; }
-.tiles { flex: 1; display: grid; grid-template-columns: repeat(5, 1fr); gap: 2.5vw; align-content: center; padding-bottom: 8vh; }
-.tiles a { height: 30vh; background: #3b55d9; color: #fff; text-decoration: none; display: flex; align-items: center; justify-content: center; text-align: center; font-size: clamp(15px, 1.4vw, 28px); font-weight: 600; padding: 1vw; }
+.tiles { flex: 1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 3vh 2.5vw; align-content: center; padding-bottom: 6vh; }
+.tiles a.alt { background: #1f8a8a; }
+.tiles a { height: 26vh; background: #3b55d9; color: #fff; text-decoration: none; display: flex; align-items: center; justify-content: center; text-align: center; font-size: clamp(15px, 1.4vw, 28px); font-weight: 600; padding: 1vw; }
 .tiles a:hover { filter: brightness(1.15); }
 
 /* Request form */
@@ -126,3 +130,110 @@ td.empty a { color: #b02a8a; font-weight: 700; }
   .grow { min-height: 420px; }
 }
 .req-list tr:not(:first-child):hover td.empty { background: none; }
+
+/* Sidebar: Scheduling Request button in its own colour */
+.nav a.alt { background: #1f8a8a; }
+
+/* Variance page (Submit Scheduling Request with preferred timeslots) */
+.req.variance-form { max-width: clamp(640px, 58vw, 1200px); }
+.pref-grid { margin-bottom: 3vh; }
+.pref-grid table { table-layout: fixed; background: #d9d9d9; }
+.pref-grid th:first-child { width: 12%; }
+.pref-grid th, .pref-grid td { font-size: clamp(11px, 0.8vw, 16px); padding: 0.3vh 0.2vw; height: clamp(24px, 3.6vh, 44px); }
+.pref-grid td.slot { cursor: pointer; }
+.pref-grid td.slot:hover { background: #c8c8e8; }
+.pref-grid td.slot.pref { background: #3c8a2e; color: #fff; }
+.variance-form .opts { margin-top: 1.5vh; }
+
+/* ===== Login hint + session / logout (both roles) ===== */
+.login-hint { font-size: clamp(13px, 0.9vw, 17px); margin-top: 1.2vh; color: #333; }
+.sidebar { overflow-y: auto; }
+.session { margin-top: auto; padding: 2vh 1.6vw 3vh; display: flex; flex-direction: column; gap: 1vh; text-align: center; font-size: clamp(13px, 0.9vw, 17px); border-top: 3px solid #000; }
+.btn.logout { background: #333; font-family: inherit; }
+
+/* ===== Timetable Planner ===== */
+.planner-tile { flex-direction: column; gap: 1vh; background: #b02a8a !important; }
+.planner-tile small { font-size: 0.6em; font-weight: 500; opacity: .9; }
+.full { width: 100%; display: flex; flex-direction: column; align-items: center; flex: 1; min-height: 0; }
+.sub { width: 100%; font-size: clamp(16px, 1.2vw, 24px); margin: 1vh 0 1.2vh; }
+.row-inline { display: flex; align-items: center; gap: 1vw; margin-bottom: 2.5vh; max-width: none; justify-content: center; }
+.row-inline select { flex: 0 1 320px; }
+.row-inline input[type=number] { width: 110px; border: none; height: clamp(36px, 4.5vh, 56px); padding: 0 12px; font-size: clamp(15px, 1.1vw, 22px); }
+.row-inline .btn { font-size: clamp(14px, 1vw, 20px); }
+.actions.tight { margin: 0 0 2vh; }
+.planner-info { width: 100%; margin: 0 0 2vh; }
+.planner-info a { color: #b02a8a; font-weight: 700; }
+button.btn:disabled { opacity: .45; cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* Selectable course rows (red outline as in the mockup) */
+table.selectable tr:not(:first-child) { cursor: pointer; }
+table.selectable tr.selected td { background: #fff; }
+table.selectable tr.selected { outline: 3px solid #e2321e; outline-offset: -2px; }
+tr.fits td { background: #e3f3df; }
+
+/* Planner timetable grid */
+table.plan { table-layout: fixed; background: #d9d9d9; }
+table.plan th:first-child { width: 10%; }
+table.plan td.open { color: #3c8a2e; cursor: pointer; }
+table.plan td.open:hover { background: #e3f3df; }
+table.plan td.booked { background: #c9c9c9; color: #333; }
+table.plan td.mine { background: #b02a8a; color: #fff; cursor: pointer; }
+table.plan td.blocked { background: #f6d0cb; color: #b3261a; }
+table.plan.small td, table.plan.small th { font-size: clamp(11px, 0.8vw, 15px); height: 5.5vh; }
+table.plan td.faint { cursor: default; }
+.legend .key { padding: 1px 6px; font-weight: 700; }
+.key.open { color: #3c8a2e; } .key.blocked { background: #f6d0cb; color: #b3261a; } .key.mine { background: #b02a8a; color: #fff; }
+
+/* Room suggestions */
+.suggest-box { width: 100%; background: #e6e6e6; border: 1px solid #aaa; padding: 1.2vh 1vw; display: flex; flex-direction: column; gap: 1vh; }
+.suggest { display: flex; align-items: center; gap: 0.8vw; font-size: clamp(14px, 1.05vw, 21px); cursor: pointer; }
+.suggest em { color: #b3261a; font-size: .85em; }
+.dot { width: 16px; height: 16px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+.dot.ok { background: #3c8a2e; } .dot.bad { background: #e2321e; }
+
+/* Priorities */
+.prio-list { width: 100%; max-width: 720px; display: flex; flex-direction: column; gap: 2.5vh; margin-top: 2vh; }
+.prio { display: flex; align-items: center; gap: 1vw; font-weight: 700; font-size: clamp(16px, 1.2vw, 24px); }
+.prio select { flex: 1; border: none; height: clamp(40px, 5vh, 60px); padding: 0 14px; font-size: clamp(15px, 1.1vw, 22px); font-weight: 700; background: #fff; }
+
+/* Approval detail */
+.detail-meta { width: 100%; display: flex; flex-wrap: wrap; gap: 1.5vh 2vw; justify-content: center; margin-bottom: 3vh; font-weight: 700; font-size: clamp(14px, 1.05vw, 21px); }
+.detail-meta label { display: flex; align-items: center; gap: .5vw; }
+.detail-meta span { background: #fff; padding: .8vh 1vw; }
+.detail-panels { width: 100%; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); gap: 2vw; flex: 1; min-height: 0; }
+.panel { border: 1px solid #555; background: #e6e6e6; display: flex; flex-direction: column; min-height: 0; }
+.panel h3 { background: #d0d0d0; border-bottom: 1px solid #555; padding: 1vh 1vw; font-size: clamp(16px, 1.2vw, 24px); }
+.panel-body { padding: 1.5vh 1vw; overflow: auto; font-size: clamp(14px, 1vw, 19px); line-height: 1.4; }
+.panel-body p { margin-bottom: 1.5vh; }
+.panel-body ul { margin: 0 0 1.5vh 1.5vw; }
+@media (max-width: 1100px) { .detail-panels { grid-template-columns: 1fr; } }
+
+/* ===== Planner A/B switch (sidebar) ===== */
+.ab-switch { margin: auto 1.6vw 2vh; border: 2px solid #00AFAF; background: #eefafa; padding: 1vh 0.8vw 1.2vh; display: flex; flex-direction: column; gap: 0.8vh; font-size: clamp(12px, 0.85vw, 16px); }
+.ab-switch legend { background: #00AFAF; color: #fff; font-weight: 700; padding: 1px 10px; border-radius: 10px; margin: 0 auto; }
+.ab-switch label { display: flex; gap: 6px; align-items: flex-start; cursor: pointer; font-weight: 600; line-height: 1.25; }
+.ab-switch input { margin-top: 2px; accent-color: #00AFAF; }
+.ab-switch + .session { margin-top: 0; }
+
+/* ===== Version B: Suggested Timetable popup ===== */
+.modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.55); display: flex; align-items: center; justify-content: center; z-index: 10; padding: 3vh 3vw; }
+.modal { background: #d9d9d9; border: 3px solid #000; width: min(1100px, 100%); max-height: 100%; overflow: auto; padding: 3vh 2.5vw; display: flex; flex-direction: column; }
+.modal-head { display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 1vh; }
+.modal-head h2 { font-size: clamp(20px, 1.6vw, 30px); }
+.modal-close { position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; font-size: 28px; line-height: 1; border: none; background: #333; color: #fff; cursor: pointer; }
+.modal-close:hover { background: #e2321e; }
+.modal .hint { margin: 0 0 1.5vh; text-align: center; }
+table.plan.suggested td, table.plan.suggested th { height: 7vh; }
+table.plan.suggested td.req-cell { color: #fff; font-weight: 700; }
+table.plan.suggested td.req-cell small { display: block; font-weight: 500; font-size: .8em; opacity: .9; }
+table.plan.suggested td.sel { outline: 4px solid #000; outline-offset: -4px; }
+.legend-list { display: flex; flex-wrap: wrap; gap: 1vh 1.5vw; margin-top: 2vh; font-size: clamp(13px, 0.9vw, 17px); font-weight: 600; }
+.legend-list span { display: inline-flex; align-items: center; gap: 6px; }
+.legend-list span.sel { text-decoration: underline; }
+.legend-list i { width: 14px; height: 14px; display: inline-block; }
+.queue-wrap { flex: 1; width: 100%; min-height: 0; overflow: auto; }
+.queue-wrap th, .queue-wrap td { padding: 1.8vh 0.6vw; }
+.queue-wrap tr:not(:first-child):hover td { background: #c8c8e8; }
+/* Approvals list uses the available height so the full request list is reachable */
+#listView .req-list { max-height: none; flex: 1; min-height: 0; }
+table.selectable tr.link.selected td { background: #fff; color: #000; }
